@@ -62,9 +62,7 @@ grunt.initConfig({
 
 #### Advanced Options
 
-Scans for HTML template files inside a `template` directory and writes the structure to a directory named `public`. As `preserveExtension` is set to `false`, the file extension will be dropped when writing. So `index.html.hbs` will become `index.html`.
-
-*If you use the `paths` object, you probably want to run this task after all other file manipulating tasks (like [less](https://www.npmjs.org/package/grunt-contrib-less) or [uglify](https://www.npmjs.org/package/grunt-contrib-uglify)) to make sure you get the right directory contents.*
+Scans for `*.html.hbs` files nested inside a `template` directory and writes the structure to a `public` directory. As `preserveExtension` is set to `false`, the file extension will be dropped when writing. Thereby `index.html.hbs` will become `index.html`.
 
 
 ```js
@@ -101,6 +99,8 @@ grunt.initConfig({
 #### Real-World Example
 
 This example illustrates how to use the plugin for writing files for different environments.
+
+*If you use the `paths` object, you probably want to run this task after all other file manipulating tasks (like [less](https://www.npmjs.org/package/grunt-contrib-less) or [uglify](https://www.npmjs.org/package/grunt-contrib-uglify)) to make sure you get the right directory contents.*
 
 ```js
 grunt.initConfig({
