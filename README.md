@@ -29,7 +29,7 @@ The writefile task is a simple task to create all kind of static files from [han
 | Property            | Type           | Description
 |:--------------------|:---------------|:-------------
 | `data`              | Object/String  | The data object passed to the handlebars template. If a string is given, it is interpreted as a path to a JSON file (defaults to `undefined`).
-| `paths`             | Object         | Creates an array of paths for each given file pattern and adds (or overrides) a `paths` property to the template data (defaults to `undefined`). Each file pattern can either be a string or an object for building paths [dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically).
+| `paths`             | Object         | Creates an array of paths for each given file pattern and adds (or overrides) a `paths` property to the template data. Each file pattern can either be a string or an object for building paths [dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) (defaults to `undefined`).
 | `helpers`           | Object         | Custom handlebars [helpers](http://handlebarsjs.com/#helpers), where the key is the helper name and the value is the helper function (defaults to `undefined`).
 | `preserveExtension` | Boolean        | This option is only relevant for [expanded](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) paths. Will strip the file extension from the destination path when set to `false` or keep it unchanged when set to `true` (defaults to `false`).
 | `encoding`          | String         | The file encoding to write files with (defaults to [`grunt.file.defaultEncoding`](http://gruntjs.com/api/grunt.file#grunt.file.defaultencoding)).
