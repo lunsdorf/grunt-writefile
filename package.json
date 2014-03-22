@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "homepage": "https://github.com/lunsdorf/grunt-writefile",
   "author": {
-    "name": "Sören Lünsdorf",
+    "name": "Sören Lünsdorf",
     "email": "code@lunsdorf.com"
   },
   "repository": {
@@ -37,5 +37,9 @@
   },
   "keywords": [
     "gruntplugin"
-  ]
+  ],
+  "dependencies": {
+    "handlebars": "~2.0.0-alpha.2",
+    "chalk": "~0.4.0"
+  }
 }
