@@ -47,15 +47,15 @@ Basic configuration reading/writing a single file.
 grunt.initConfig({
   writefile: {
     options: {
-    	data: {
-    		foo: 1,
-    		bar: 2
-    	}
+        data: {
+            foo: 1,
+            bar: 2
+        }
     },
     main: {
-    	src: 'path/to/template.hbs',
-    	dest: 'path/to/target.txt'
-	}
+        src: 'path/to/template.hbs',
+        dest: 'path/to/target.txt'
+    }
   }
 });
 ```
@@ -71,31 +71,92 @@ Scans for HTML template files inside a `template` directory and writes the struc
 grunt.initConfig({
   writefile: {
     options: {
-		preserveExtension: false,
-    	data: 'path/to/data.json',	// read template data from JSON file
-    	helpers: {					// provide handlebars helper functions
-    		someHelper: function (value) {
-    			return '<strong>' + value + '</strong>';
-    		}
-    	},
-    	paths: {					// provide directory contents to template
-    		someFiles: '/path/to/**/some/files.*',
-    		otherFiles: {
-    		    cwd: 'path/base/',
-    			src: '**/other/files.*'
-    		}
-		}
+        preserveExtension: false,
+        data: 'path/to/data.json',  // read template data from JSON file
+        helpers: {                  // provide handlebars helper functions
+            someHelper: function (value) {
+                return '<strong>' + value + '</strong>';
+            }
+        },
+        paths: {                    // provide directory contents to template
+            someFiles: '/path/to/**/some/files.*',
+            otherFiles: {
+                cwd: 'path/base/',
+                src: '**/other/files.*'
+            }
+        }
     },
     main: {
-    	files: [{
-    		expand: true,
-    		cwd: 'path/base/',
-    		src: 'templates/**/*.html.hbs',
-    		dest: 'public/',
-    	}]
-	}
+        files: [{
+            expand: true,
+            cwd: 'path/base/',
+            src: 'templates/**/*.html.hbs',
+            dest: 'public/',
+        }]
+    }
   }
 });
+```
+
+#### Real-World Example
+
+This example illustrates how to use the plugin for writing files for different environments.
+
+```js
+grunt.initConfig({
+    less: {
+        dev: { /* ... */ },
+        prod: { /* ... */ }
+    },
+    uglify: {
+        dev: { /* ... */ },
+        prod: { /* ... */ }
+    },
+    writefile: {
+        options: {
+            data: {
+                title: 'My Page Title'
+            },
+            paths: {
+                stylesheets: 'assets/styles/*.css',
+                scripts: 'assets/scripts/*.js'
+            }
+        }
+        index: {
+            src: 'templates/index.hbs',
+            dest: 'public/index.html'
+        }
+    }
+});
+
+// ...
+
+grunt.registerTask('dev', ['less:dev', 'uglify:dev', 'writefile:index']);
+grunt.registerTask('prod', ['less:prod', 'uglify:prod', 'writefile:index']);
+
+```
+
+
+The `index.html` template file could look like this:
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{title}}</title>
+    
+        {{#each paths.stylesheets}}
+        <link href="{{this}}" rel="stylesheet" type="text/css">
+        {{/each}}
+    </head>
+    <body>
+        <!-- content -->
+        
+        {{#each paths.scripts}}
+        <script src="{{this}}"></script>
+        {{/each}}
+    </body>
+</html>
 ```
 
 
