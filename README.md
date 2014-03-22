@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-writefile');
 
 ## The "writefile" Task
 
-This is a basic task to create all kind of static files from handlebars templates on build time. You might find this helpful if you need to export files for different environments (e.g. development and production) and need a simple and quick solution.
+This is a basic task to create all kind of static files from [handlebars](http://handlebarsjs.com) templates on build time. You might find this helpful if you need to export files for different environments (e.g. development and production) and need a simple and quick solution.
 
 
 ### Options
@@ -123,7 +123,7 @@ grunt.initConfig({
             }
         }
         index: {
-            src: 'templates/index.hbs',
+            src: 'templates/index.html.hbs',
             dest: 'public/index.html'
         }
     }
@@ -137,7 +137,7 @@ grunt.registerTask('prod', ['less:prod', 'uglify:prod', 'writefile:index']);
 ```
 
 
-The `index.html` template file could look like this:
+The `index.html.hbs` template file could look like this:
 
 ```html
 <!DOCTYPE html>
