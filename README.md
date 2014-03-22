@@ -169,3 +169,4 @@ Thanks to the [grunt](http://gruntjs.com/) project, the [handlebars](http://hand
 | Release | Description
 |:--------|:------------
 | 0.1.0   | Initial release.
+| 0.1.1   | Fixed bug related to `preserveExtension` option.
