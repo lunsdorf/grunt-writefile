@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-writefile');
 
 ## The "writefile" Task
 
-The writefile task is a basic task to create all kind of static files from [handlebars](http://handlebarsjs.com) templates. You might find this helpful if you need to export files for different environments (e.g. development and production) and need a simple and quick solution.
+The writefile task is a simple task to create all kind of static files from [handlebars](http://handlebarsjs.com) templates. You might find this helpful if you need to export files for different environments (e.g. development and production) and need a basic and quick solution.
 
 
 ### Options
