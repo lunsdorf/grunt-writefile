@@ -36,7 +36,7 @@
     "grunt": "~0.4.2"
   },
   "keywords": [
-    "gruntplugin", "build", "assemble", "export", "static", "environment", "handlebars", "template"
+    "gruntplugin", "build", "assemble", "export", "export file", "generate", "generator", "static", "static file", "environment", "handlebars", "template"
   ],
   "dependencies": {
     "handlebars": "~2.0.0-alpha.2",
