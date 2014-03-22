@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-writefile');
 
 ## The "writefile" Task
 
-The `writefile` task is a basic task to create all kind of static files from [handlebars](http://handlebarsjs.com) templates on build time. You might find this helpful if you need to export files for different environments (e.g. development and production) and need a simple and quick solution.
+The writefile task is a basic task to create all kind of static files from [handlebars](http://handlebarsjs.com) templates on build time. You might find this helpful if you need to export files for different environments (e.g. development and production) and need a simple and quick solution.
 
 
 ### Options
@@ -100,7 +100,7 @@ grunt.initConfig({
 
 This example illustrates how to use the plugin for writing files for different environments.
 
-*If you use the `paths` object, you probably want to run this task after all other file manipulating tasks (like [less](https://www.npmjs.org/package/grunt-contrib-less) or [uglify](https://www.npmjs.org/package/grunt-contrib-uglify)) to make sure you get the right directory contents.*
+*If you use the `paths` object, you probably want to run the writefile task after all other file manipulating tasks (like [less](https://www.npmjs.org/package/grunt-contrib-less) or [uglify](https://www.npmjs.org/package/grunt-contrib-uglify)) to make sure you get the right directory contents.*
 
 ```js
 grunt.initConfig({
