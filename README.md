@@ -28,9 +28,9 @@ The writefile task is a simple task to create all kind of static files from [han
 
 | Property            | Type           | Description
 |:--------------------|:---------------|:-------------
-| `data`              | Object/String  | The data object passed to the handlebars template. Given strings are interpreted as paths to JSON files (defaults to `undefined`).
-| `paths`             | Object         | Reads directory contents and adds (or overrides) a `paths` property to the template data. The object key is used for grouping files (e.g. `scripts` or `stylesheets`), the object value describes a path pattern string or an object for building paths [dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically). The result is represented as an array of strings (defaults to `undefined`).
-| `helpers`           | Object         | A set of handlebars [helpers](http://handlebarsjs.com/#helpers). The object key represents the helper name, the object value represents the helper function (defaults to `undefined`).
+| `data`              | Object/String  | The data object passed to the handlebars template. If a string is given, it is interpreted as a path to a JSON file (defaults to `undefined`).
+| `paths`             | Object         | Creates an array of paths for each given file pattern and adds (or overrides) a `paths` property to the template data (defaults to `undefined`). Each file pattern can either be a string or an object for building paths [dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically).
+| `helpers`           | Object         | Custom handlebars [helpers](http://handlebarsjs.com/#helpers), where the key is the helper name and the value is the helper function (defaults to `undefined`).
 | `preserveExtension` | Boolean        | This option is only relevant for [expanded](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) paths. Will strip the file extension from the destination path when set to `false` or keep it unchanged when set to `true` (defaults to `false`).
 | `encoding`          | String         | The file encoding to write files with (defaults to [`grunt.file.defaultEncoding`](http://gruntjs.com/api/grunt.file#grunt.file.defaultencoding)).
 | `mode`              | Boolean/Number | Whether to copy or set the existing file permissions. Set to `true` to copy the existing file permissions. Or set to the mode (i.e. `0644`) that copied files will be set to (defaults to `false`).
