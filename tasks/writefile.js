@@ -72,13 +72,19 @@ module.exports = function (grunt) {
 
             file.src.forEach(function (src) {
                 var encoding = options.encoding;
-                var dest, tpl;
+                var dest, tpl, i;
 
                 if (grunt.file.isFile(src)) {
                     grunt.verbose.writeln('Compiling template file: ' + chalk.cyan(src));
 
                     tpl = parser.compile(grunt.file.read(src));
-                    dest = (options.preserveExtension || !expandedPath) ? file.dest : file.dest.substr(0, file.dest.lastIndexOf('.'));
+
+                    if (options.preserveExtension || !expandedPath) {
+                        dest = file.dest;
+                    } else {
+                        i = file.dest.lastIndexOf('.');
+                        dest = 0 > i ? file.dest : file.dest.substr(0, i);
+                    }
 
                     grunt.file.write(dest, tpl(data), {
                         encoding: options.encoding
