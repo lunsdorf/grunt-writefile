@@ -17,73 +17,94 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-writefile');
 ```
 
-## The "writefile" task
 
-### Overview
-In your project's Gruntfile, add a section named `writefile` to the data object passed into `grunt.initConfig()`.
 
-```js
-grunt.initConfig({
-  writefile: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
-});
-```
+## The "writefile" Task
+
+This is a basic task to create all kind of static files from handlebars templates on build time. You might find this helpful if you need to export files for different environments (e.g. development and production) and need a simple and quick solution.
+
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+| Property            | Type           | Description
+|:--------------------|:---------------|:-------------
+| `data`              | Object/String  | The data object passed to the handlebars template. Given strings are interpreted as paths to JSON files (defaults to `undefined`).
+| `paths`             | Object         | Reads directory contents and adds (or overrides) a `paths` property to the template data. The object key is used for grouping files (e.g. `scripts` or `stylesheets`), the object value describes a path pattern string or an object for building paths [dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically). The result is represented as an array of strings (defaults to `undefined`).
+| `helpers`           | Object         | A set of handlebars [helpers](http://handlebarsjs.com/#helpers). The object key represents the helper name, the object value represents the helper function (defaults to `undefined`).
+| `preserveExtension` | Boolean        | This option is only relevant for [expanded](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) paths. Will strip the file extension from the destination path when set to `false` or keep it unchanged when set to `true` (defaults to `false`).
+| `encoding`          | String         | The file encoding to write files with (defaults to [`grunt.file.defaultEncoding`](http://gruntjs.com/api/grunt.file#grunt.file.defaultencoding)).
+| `mode`              | Boolean/Number | Whether to copy or set the existing file permissions. Set to `true` to copy the existing file permissions. Or set to the mode (i.e. `0644`) that copied files will be set to (defaults to `false`).
 
-A string value that is used to do something with whatever.
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
 
-A string value that is used to do something else with whatever else.
+### Examples
 
-### Usage Examples
+#### Basic Options
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  writefile: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+Basic configuration reading/writing a single file.
 
 ```js
 grunt.initConfig({
   writefile: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+    	data: {
+    		foo: 1,
+    		bar: 2
+    	}
     },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+    main: {
+    	src: 'path/to/template.hbs',
+    	dest: 'path/to/target.txt'
+	}
+  }
 });
 ```
 
+#### Advanced Options
+
+Scans for HTML template files inside a `template` directory and writes the structure to a directory named `public`. As `preserveExtension` is set to `false`, the file extension will be dropped when writing. So `index.html.hbs` will become `index.html`.
+
+*If you use the `paths` object, you probably want to run this task after all other file manipulating tasks (like [less](https://www.npmjs.org/package/grunt-contrib-less) or [uglify](https://www.npmjs.org/package/grunt-contrib-uglify)) to make sure you get the right directory contents.*
+
+
+```js
+grunt.initConfig({
+  writefile: {
+    options: {
+		preserveExtension: false,
+    	data: 'path/to/data.json',	// read template data from JSON file
+    	helpers: {					// provide handlebars helper functions
+    		someHelper: function (value) {
+    			return '<strong>' + value + '</strong>';
+    		}
+    	},
+    	paths: {					// provide directory contents to template
+    		someFiles: '/path/to/**/some/files.*',
+    		otherFiles: {
+    		    cwd: 'path/base/',
+    			src: '**/other/files.*'
+    		}
+		}
+    },
+    main: {
+    	files: [{
+    		expand: true,
+    		cwd: 'path/base/',
+    		src: 'templates/**/*.html.hbs',
+    		dest: 'public/',
+    	}]
+	}
+  }
+});
+```
+
+
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+
+Thanks to the [grunt](http://gruntjs.com/) project, the [handlebars](http://handlebarsjs.com) template engine and all people that are somehow involved in all that.
 
 ## Release History
-_(Nothing yet)_
+
+| Release | Description
+|:--------|:------------
+| 0.1.0   | Initial release.

@@ -13,7 +13,7 @@ module.exports = function (grunt) {
     var chalk = require('chalk');
 
     function provide_template_parser (options) {
-        var parser = handlebars.create();
+        var parser = handlebars.create(); // each task has its own instance
         var p;
 
         if (options.helpers) {
@@ -56,8 +56,6 @@ module.exports = function (grunt) {
         var options = this.options({
             preserveExtension: false, // ignored if path is expanded
             encoding: grunt.file.defaultEncoding,
-            process: false,
-            noProcess: [],
             mode: false
         });
 
@@ -83,9 +81,7 @@ module.exports = function (grunt) {
                     dest = (options.preserveExtension || !expandedPath) ? file.dest : file.dest.substr(0, file.dest.lastIndexOf('.'));
 
                     grunt.file.write(dest, tpl(data), {
-                        encoding: options.encoding,
-                        process: options.process,
-                        noProcess: options.noProcess
+                        encoding: options.encoding
                     });
 
                     if (options.mode !== false) {
