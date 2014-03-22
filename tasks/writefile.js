@@ -8,9 +8,10 @@
 module.exports = function (grunt) {
     'use strict';
 
+    var chalk = require('chalk');
     var fs = require('fs');
     var handlebars = require('handlebars');
-    var chalk = require('chalk');
+    var path = require('path');
 
     function provide_template_parser (options) {
         var parser = handlebars.create(); // each task has its own instance
@@ -78,13 +79,7 @@ module.exports = function (grunt) {
                     grunt.verbose.writeln('Compiling template file: ' + chalk.cyan(src));
 
                     tpl = parser.compile(grunt.file.read(src));
-
-                    if (options.preserveExtension || !expandedPath) {
-                        dest = file.dest;
-                    } else {
-                        i = file.dest.lastIndexOf('.');
-                        dest = 0 > i ? file.dest : file.dest.substr(0, i);
-                    }
+                    dest = (options.preserveExtension || !expandedPath) ? file.dest : file.dest.slice(0, (path.extname(file.dest).length * -1));
 
                     grunt.file.write(dest, tpl(data), {
                         encoding: options.encoding
