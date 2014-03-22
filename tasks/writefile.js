@@ -2,49 +2,101 @@
  * grunt-writefile
  * https://github.com/lunsdorf/grunt-writefile
  *
- * Copyright (c) 2014 Sören Lünsdorf
+ * Copyright (c) 2014 Sören Lünsdorf
  * Licensed under the MIT license.
  */
+module.exports = function (grunt) {
+    'use strict';
 
-'use strict';
+    var fs = require('fs');
+    var handlebars = require('handlebars');
+    var chalk = require('chalk');
 
-module.exports = function(grunt) {
+    function provide_template_parser (options) {
+        var parser = handlebars.create();
+        var p;
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
-
-  grunt.registerMultiTask('writefile', 'Writes static files using handlebars templates.', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
-
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
+        if (options.helpers) {
+            for (p in options.helpers) {
+                if (options.helpers.hasOwnProperty(p)) {
+                    parser.registerHelper(p, options.helpers[p]);
+                }
+            }
         }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
 
-      // Handle options.
-      src += options.punctuation;
+        return parser;
+    }
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
+    function provide_template_data (options) {
+        var data = {};
+        var path, p;
 
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+        if ('string' === typeof options.data) {
+            data = grunt.file.readJSON(options.data);
+        } else {
+            data = options.data ? grunt.util._.clone(options.data) : {};
+        }
+
+        if (options.paths) {
+            data.paths = {};
+
+            for (p in options.paths) {
+                if (options.paths.hasOwnProperty(p)) {
+                    path = options.paths[p];
+
+                    data.paths[p] = grunt.file.expand.apply(grunt.file, 'string' === typeof path ? [path] : [path, path.src]);
+                }
+            }
+        }
+
+        return data;
+    }
+
+    grunt.registerMultiTask('writefile', 'Writes static files using handlebars templates.', function () {
+        var options = this.options({
+            preserveExtension: false, // ignored if path is expanded
+            encoding: grunt.file.defaultEncoding,
+            process: false,
+            noProcess: [],
+            mode: false
+        });
+
+        var parser = provide_template_parser(options);
+        var data = provide_template_data(options);
+        var processed = 0;
+
+        this.files.forEach(function (file) {
+            var expandedPath = file.orig.expand || false;
+
+            if (!expandedPath && 1 < file.src.length) {
+                grunt.warn('writing multiple sources to single destination: ' + file.dest + '!');
+            }
+
+            file.src.forEach(function (src) {
+                var encoding = options.encoding;
+                var dest, tpl;
+
+                if (grunt.file.isFile(src)) {
+                    grunt.verbose.writeln('Compiling template file: ' + chalk.cyan(src));
+
+                    tpl = parser.compile(grunt.file.read(src));
+                    dest = (options.preserveExtension || !expandedPath) ? file.dest : file.dest.substr(0, file.dest.lastIndexOf('.'));
+
+                    grunt.file.write(dest, tpl(data), {
+                        encoding: options.encoding,
+                        process: options.process,
+                        noProcess: options.noProcess
+                    });
+
+                    if (options.mode !== false) {
+                        fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+                    }
+
+                    processed = (processed + 1);
+                }
+            });
+        });
+
+        grunt.log.writeln(chalk.cyan(processed) + (1 < processed ? ' files' : ' file') + ' written.');
     });
-  });
-
 };

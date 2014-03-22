@@ -23,26 +23,44 @@ var grunt = require('grunt');
 */
 
 exports.writefile = {
-  setUp: function(done) {
-    // setup here if necessary
-    done();
-  },
-  default_options: function(test) {
-    test.expect(1);
+    value_options: function(test) {
+        var actual = grunt.file.read('tmp/value');
+        var expected = grunt.file.read('test/expected/value');
 
-    var actual = grunt.file.read('tmp/default_options');
-    var expected = grunt.file.read('test/expected/default_options');
-    test.equal(actual, expected, 'should describe what the default behavior is.');
+        test.expect(1);
+        test.equal(actual, expected);
+        test.done();
+    },
+    json_value_options: function(test) {
+        var actual = grunt.file.read('tmp/json_value');
+        var expected = grunt.file.read('test/expected/json_value');
 
-    test.done();
-  },
-  custom_options: function(test) {
-    test.expect(1);
+        test.expect(1);
+        test.equal(actual, expected);
+        test.done();
+    },
+    helper_options: function(test) {
+        var actual = grunt.file.read('tmp/helper');
+        var expected = grunt.file.read('test/expected/helper');
 
-    var actual = grunt.file.read('tmp/custom_options');
-    var expected = grunt.file.read('test/expected/custom_options');
-    test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+        test.expect(1);
+        test.equal(actual, expected);
+        test.done();
+    },
+    paths_options: function(test) {
+        var actual = grunt.file.read('tmp/paths');
+        var expected = grunt.file.read('test/expected/paths');
 
-    test.done();
-  },
+        test.expect(1);
+        test.equal(actual, expected);
+        test.done();
+    },
+    paths_ext_options: function(test) {
+        var actual = grunt.file.read('tmp/paths.hbs');
+        var expected = grunt.file.read('test/expected/paths.hbs');
+
+        test.expect(1);
+        test.equal(actual, expected);
+        test.done();
+    }
 };
