@@ -144,14 +144,14 @@ The `index.html.hbs` template file could look like this:
 <html>
     <head>
         <title>{{title}}</title>
-    
+
         {{#each paths.stylesheets}}
         <link href="{{this}}" rel="stylesheet" type="text/css">
         {{/each}}
     </head>
     <body>
         <!-- content -->
-        
+
         {{#each paths.scripts}}
         <script src="{{this}}"></script>
         {{/each}}
@@ -164,9 +164,11 @@ The `index.html.hbs` template file could look like this:
 
 Thanks to the [grunt](http://gruntjs.com/) project, the [handlebars](http://handlebarsjs.com) template engine and all people that are somehow involved in all that.
 
+
 ## Release History
 
 | Release | Description
 |:--------|:------------
 | 0.1.0   | Initial release.
 | 0.1.1   | Fixed bug related to `preserveExtension` option.
+| 0.1.2   | Updated library versions.

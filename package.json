@@ -27,19 +27,30 @@
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.6.0",
+    "grunt": "~0.4.2",
     "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt": "~0.4.2"
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-nodeunit": "~0.2.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.2"
   },
   "keywords": [
-    "gruntplugin", "build", "assemble", "export", "export file", "generate", "generator", "static", "static file", "environment", "handlebars", "template"
+    "gruntplugin",
+    "build",
+    "assemble",
+    "export",
+    "export file",
+    "generate",
+    "generator",
+    "static",
+    "static file",
+    "environment",
+    "handlebars",
+    "template"
   ],
   "dependencies": {
-    "handlebars": "~2.0.0-alpha.2",
-    "chalk": "~1.0.0"
+    "chalk": "~1.0.0",
+    "handlebars": "^3.0.0"
   }
 }
